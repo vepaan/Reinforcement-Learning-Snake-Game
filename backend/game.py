@@ -72,7 +72,7 @@ class SnakeGameAI:
 
         #if our agent does not do anything for 100 frames, and doesn't improve, we quit game
         #longer snake has more time to play around
-        if self._is_collision() or self.frame_iteration > 100*len(self.snake):
+        if self.is_collision() or self.frame_iteration > 100*len(self.snake):
             game_over = True
             reward = -10
             return reward, game_over, self.score
@@ -119,7 +119,7 @@ class SnakeGameAI:
         self.head = Point(x, y)
 
     
-    def _is_collision(self, pt=None):
+    def is_collision(self, pt=None):
         if pt is None:
             pt = self.head
 
