@@ -22,16 +22,20 @@ BLUE2 = (0, 100, 255)
 BLACK = (0,0,0)
 
 BLOCK_SIZE = 20
-SPEED = 40000
+SPEED = 400000
 
 class SnakeGameAI:
 
-    def __init__(self, w=640, h=480, speed=SPEED):
+    def __init__(self, w=640, h=480, speed=SPEED, render=True):
         self.speed = speed
+        self.render = render
         self.w = w
         self.h = h
-        self.display = pygame.display.set_mode((self.w, self.h))
-        pygame.display.set_caption("SnakeGame")
+
+        if self.render:
+            self.display = pygame.display.set_mode((self.w, self.h))
+            pygame.display.set_caption("SnakeGame")
+            
         self.clock = pygame.time.Clock()
         self.reset()
 
@@ -85,7 +89,8 @@ class SnakeGameAI:
         else:
             self.snake.pop()
 
-        self._update_ui()
+        if self.render:
+            self._update_ui()
         self.clock.tick(self.speed)
         return reward, game_over, self.score
 
