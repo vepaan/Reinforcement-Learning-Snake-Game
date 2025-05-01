@@ -12,7 +12,8 @@ LR = 0.001
 
 class Agent:
 
-    def __init__(self):
+    def __init__(self, display=False):
+        self.display = display
         self.n_games = 0
         self.epsilon = 0 #param to control stochasticity
         self.gamma = 0.9 #discount rate < 1
@@ -89,7 +90,15 @@ class Agent:
     def get_action(self, state):
         # make random moves at start
         # this is where the tradeoff between exploration and exploitation comes in
-        self.epsilon = 80 - self.n_games
+        #if however display is True, we make epsilon 0 to have no exploration
+        # BUG -> where not propagating n_games info caused poor dev performance
+        # FIX -> set epsilon to 0
+
+        if self.display:
+            self.epsilon = -1
+        else:
+            self.epsilon = 80 - self.n_games
+
         final_move = [0,0,0]
 
         if random.randint(0, 200) < self.epsilon:
@@ -144,7 +153,20 @@ def train():
             mean_score = total_score / agent.n_games
             plot_mean_scores.append(mean_score)
             plot(plot_scores, plot_mean_scores)
-            
+
+
+def display():
+    agent = Agent(display=True)
+    agent.model.load("./model/model.pth")
+
+    game = SnakeGameAI(speed=20)
+
+    while True:
+        state = agent.get_state(game)
+        move = agent.get_action(state)
+        reward, done, score = game.play_step(move)
+        if done:
+            game.reset()
 
 if __name__ == '__main__':
-    train()
+    display()
