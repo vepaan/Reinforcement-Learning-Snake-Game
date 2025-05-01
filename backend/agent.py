@@ -119,7 +119,7 @@ def train():
     record = 0
     agent = Agent()
     render = False
-    game = SnakeGameAI(render=render)
+    game = SnakeGameAI(render=render, speed=10000000)
 
     if render:
         from plotter import plot
