@@ -26,7 +26,8 @@ SPEED = 40
 
 class SnakeGameAI:
 
-    def __init__(self, w=640, h=480):
+    def __init__(self, w=640, h=480, speed=SPEED):
+        self.speed = speed
         self.w = w
         self.h = h
         self.display = pygame.display.set_mode((self.w, self.h))
@@ -85,7 +86,7 @@ class SnakeGameAI:
             self.snake.pop()
 
         self._update_ui()
-        self.clock.tick(SPEED)
+        self.clock.tick(self.speed)
         return reward, game_over, self.score
 
 
